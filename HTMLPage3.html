@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+          content="A beginner-friendly monthly expense tracker.">
+    <title>Monthly Expense Tracker</title>
+    <link rel="stylesheet" href="StyleSheet3.css">
+</head>
+
+<body>
+    <main class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="#overview" aria-label="BudgetFlow home">
+                <span class="brand-mark" aria-hidden="true">€</span>
+                <span>BudgetFlow</span>
+            </a>
+
+            <nav class="main-nav" aria-label="Main navigation">
+                <a class="active" href="#overview">Overview</a>
+                <a href="#breakdown">Insights</a>
+                <a href="#budget">Budget</a>
+            </nav>
+
+            <div class="profile-badge" aria-label="Profile">LT</div>
+        </header>
+
+        <div class="dashboard" id="overview">
+            <section class="intro">
+                <div>
+                    <p class="eyebrow">Monthly overview</p>
+                    <h1>Make every euro count.</h1>
+                    <p>See where your money goes and stay ahead of your goals.</p>
+                </div>
+
+                <div class="budget-actions">
+                    <button id="edit-budget-btn" class="budget-button" type="button">
+                        Edit monthly budget
+                    </button>
+
+                    <form id="budget-form" class="budget-editor" hidden>
+                        <label for="monthly-budget">Monthly budget</label>
+
+                        <div>
+                            <span>€</span>
+                            <input id="monthly-budget"
+                                   type="number"
+                                   min="100"
+                                   max="1000000"
+                                   step="0.01"
+                                   required>
+                        </div>
+
+                        <button type="submit">Save</button>
+                        <button id="cancel-budget-btn" type="button">Cancel</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="summary-grid" id="budget" aria-label="Budget summary">
+                <article class="summary-card">
+                    <div class="summary-icon lime">€</div>
+
+                    <div>
+                        <p>Monthly budget</p>
+                        <strong id="budget-value">€0</strong>
+                        <span>100% monthly limit</span>
+                    </div>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-icon blue">↗</div>
+
+                    <div>
+                        <p>Total spent</p>
+                        <strong id="spent-value">€0</strong>
+                        <span id="spent-percentage">0% of budget</span>
+                    </div>
+                </article>
+
+                <article id="remaining-card" class="summary-card highlight">
+                    <div id="remaining-icon" class="summary-icon dark">✓</div>
+
+                    <div>
+                        <p id="remaining-title">Remaining</p>
+                        <strong id="remaining-value">€0</strong>
+                        <span id="remaining-description">100% left to spend</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="analytics-card" id="breakdown">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Live calculation</p>
+                        <h2>Spending breakdown</h2>
+                    </div>
+
+                    <span class="pill">This month</span>
+                </div>
+
+                <div class="analytics-layout">
+                    <div class="donut-wrap">
+                        <div id="donut"
+                             class="donut"
+                             role="img"
+                             aria-label="Doughnut chart showing spending by category">
+                            <div>
+                                <span>Spent</span>
+                                <strong id="donut-spent">€0</strong>
+                                <small>of <span id="donut-budget">€0</span></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="category-list" class="category-list"></div>
+                </div>
+            </section>
+
+            <aside class="quick-add" aria-labelledby="quick-add-title">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">New transaction</p>
+                        <h2 id="quick-add-title">Add expense</h2>
+                    </div>
+                </div>
+
+                <form id="expense-form">
+                    <label for="expense-name">Expense name</label>
+                    <input id="expense-name"
+                           name="name"
+                           type="text"
+                           maxlength="60"
+                           placeholder="e.g. Grocery shopping"
+                           autocomplete="off"
+                           required>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="amount">Amount</label>
+
+                            <div class="input-with-unit">
+                                <span>€</span>
+                                <input id="amount"
+                                       name="amount"
+                                       type="number"
+                                       min="0.01"
+                                       max="100000"
+                                       step="0.01"
+                                       placeholder="0.00"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="category">Category</label>
+                            <select id="category" name="category" required>
+                                <option value="" selected disabled>Choose</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Food">Food</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Fun">Fun</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="primary-button" type="submit">
+                        <span aria-hidden="true">＋</span>
+                        Add expense
+                    </button>
+                </form>
+            </aside>
+
+            <p id="status-message" class="status-message" aria-live="polite"></p>
+
+            <section class="transactions-card"
+                     aria-labelledby="transactions-title">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Latest activity</p>
+                        <h2 id="transactions-title">Recent expenses</h2>
+                    </div>
+
+                    <span id="item-count" class="pill">0 items</span>
+                </div>
+
+                <div id="transaction-list" class="transaction-list"></div>
+
+                <div id="empty-state" class="empty-state" hidden>
+                    <span aria-hidden="true">＋</span>
+                    <h3>No expenses yet</h3>
+                    <p>Add your first expense to build the chart.</p>
+                </div>
+            </section>
+
+            <p class="storage-note">
+                Your budget and expenses are saved automatically on this device.
+            </p>
+        </div>
+    </main>
+
+    <script src="script3.js"></script>
+</body>
+</html>
